@@ -1,0 +1,9 @@
+.ida/
+.vscode/
+node_modules/
+build/
+temp/
+
+
+tmp/*
+!tmp/.gitkeep
