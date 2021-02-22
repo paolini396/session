@@ -4,6 +4,7 @@ import IUserRepository from '@modules/users/repositories/IUserRepository';
 import ICreateUsersDTO from '@modules/users/dtos/ICreateUserDTO';
 
 import User from '../entities/User';
+import IUpdateUserDTO from '@modules/users/dtos/IUpdateUserDTO';
 
 class UsersRepository implements IUserRepository {
   private ormRepository: Repository<User>;
@@ -32,6 +33,17 @@ class UsersRepository implements IUserRepository {
     await this.ormRepository.save(user);
 
     return user;
+  }
+
+  public async update(newUserData: IUpdateUserDTO): Promise<User | undefined> {
+    await this.ormRepository.update(newUserData.id, newUserData);
+
+    const user = await this.ormRepository.findOne(newUserData.id);
+
+    delete user?.password;
+
+    return user;
+
   }
 
   public async save(user: User): Promise<User> {
