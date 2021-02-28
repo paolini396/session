@@ -6,7 +6,6 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import DestroyUserService from '@modules/users/services/DestroyUserService';
 
-
 export default class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const indexUsers = container.resolve(IndexUserService);
