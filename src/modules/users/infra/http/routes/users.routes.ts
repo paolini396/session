@@ -2,13 +2,15 @@ import { Router } from 'express';
 
 import UsersController from '../controllers/UsersController';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const usersRouter = Router();
 
 const usersController = new UsersController();
 
-usersRouter.get('/', usersController.index);
 usersRouter.post('/', usersController.store);
-usersRouter.put('/', usersController.update);
-usersRouter.delete('/:id', usersController.destroy);
+usersRouter.get('/', ensureAuthenticated, usersController.index);
+usersRouter.put('/', ensureAuthenticated, usersController.update);
+usersRouter.delete('/:id', ensureAuthenticated, usersController.destroy);
 
 export default usersRouter;
