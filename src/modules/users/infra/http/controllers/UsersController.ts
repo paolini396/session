@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import IndexUserService from '@modules/users/services/IndexUserService';
@@ -12,11 +12,11 @@ export default class UsersController {
 
     const users = await indexUsers.execute();
 
-    users.forEach((user) => {
+    users.forEach(user => {
       delete user.password;
-    })
+    });
 
-    return response.json({users});
+    return response.json({ users });
   }
 
   public async store(request: Request, response: Response): Promise<Response> {
@@ -32,7 +32,7 @@ export default class UsersController {
 
     delete user.password;
 
-    return response.json({user});
+    return response.json({ user });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -42,14 +42,17 @@ export default class UsersController {
 
     const user = await updateUser.execute(data);
 
-    return response.json({user});
+    return response.json({ user });
   }
 
-  public async destroy(request: Request, response: Response): Promise<Response> {
+  public async destroy(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
     const { id } = request.params;
 
     const destroyUser = container.resolve(DestroyUserService);
-    
+
     await destroyUser.execute(id);
 
     return response.json({});

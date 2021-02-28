@@ -11,4 +11,3 @@ export default interface IUsersRepository {
   destroy(id: string): Promise<void>;
   save(user: User): Promise<User>;
 }
-

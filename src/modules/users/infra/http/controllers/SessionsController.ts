@@ -9,11 +9,11 @@ class SessionsController {
 
     const authenticateUser = container.resolve(AutenticateUserService);
 
-    const { user, token } = await authenticateUser.execute({ email, password })
+    const { user, token } = await authenticateUser.execute({ email, password });
 
     delete user.password;
 
-    return response.json({ user, token })
+    return response.json({ user, token });
   }
 }
 
