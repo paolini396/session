@@ -8,6 +8,7 @@ interface IRequest {
   id: string;
   name?: string;
   email?: string;
+  password?: string;
 }
 
 @injectable()
@@ -17,16 +18,14 @@ class UpdateUserService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ id, name, email }: IRequest): Promise<User | undefined> {
+  public async execute({ id, name, email, password }: IRequest): Promise<User | undefined> {
     const findUser = await this.usersRepository.findById(id);
 
     if(!findUser) {
       throw new AppError('Usuário não encontrado.')
     }
 
-    const user = await this.usersRepository.update({...findUser, id, email, name, updated_at: new Date });
-
-    console.log({user});
+    const user = await this.usersRepository.update({...findUser, id, email, name, password, updated_at: new Date });
 
     return user;
   }
