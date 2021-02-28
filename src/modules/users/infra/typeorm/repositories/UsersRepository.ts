@@ -54,7 +54,12 @@ class UsersRepository implements IUserRepository {
     delete user?.password;
 
     return user;
+  }
 
+  public async destroy(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+    
+    return;
   }
 
   public async save(user: User): Promise<User> {

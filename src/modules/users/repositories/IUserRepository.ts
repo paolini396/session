@@ -8,6 +8,7 @@ export default interface IUsersRepository {
   index(): Promise<User[]>;
   store(data: ICreateUserDTO): Promise<User>;
   update(newData: IUpdateUserDTO): Promise<User | undefined>;
+  destroy(id: string): Promise<void>;
   save(user: User): Promise<User>;
 }
 
