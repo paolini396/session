@@ -36,7 +36,7 @@ $ cd session
 # Install dependencies
 $ yarn
 
-# Install migrations
+# Run migrations
 $ yarn typeorm migration:run
 
 # Run the project
