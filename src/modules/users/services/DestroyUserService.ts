@@ -1,3 +1,4 @@
+import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
 import IUsersRepository from '../repositories/IUserRepository';
@@ -10,6 +11,15 @@ class UpdateUserService {
   ) {}
 
   public async execute(id: string): Promise<void> {
+
+    const user = await this.usersRepository.findById(id);
+
+    console.log({user})
+
+    if(!user) {
+      throw new AppError('Usuário não existe.')
+    }
+
     await this.usersRepository.destroy(id);
 
     return;

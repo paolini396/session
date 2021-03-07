@@ -14,36 +14,57 @@ class UsersRepository implements IUserRepository {
   }
 
   public async findById(id: string): Promise<User | undefined> {
+    try {
     const user = await this.ormRepository.findOne(id);
 
     return user;
+    } catch (err) {
+      return;
+    }
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({
-      where: {email},
-    });
+    try {
+      const user = await this.ormRepository.findOne({
+        where: {email},
+      });
+  
+      return user;
+    }catch(err) {
+      return;
+    }
 
-    return user;
   }
 
   public async index(): Promise<User[]> {
-    const users = await this.ormRepository.find({
-      order: {
-        name: 'ASC',
-        id: 'DESC'
-      },
-    });
-
-    return users;
+    try {
+      const users = await this.ormRepository.find({
+        order: {
+          name: 'ASC',
+          id: 'DESC'
+        },
+      });
+  
+      return users;
+    }catch (err) {
+      return [];
+    }
+ 
   }
 
-  public async store(UserData: ICreateUsersDTO): Promise<User> {
-    const user = this.ormRepository.create(UserData);
+  public async store(UserData: ICreateUsersDTO): Promise<User | undefined> {
+    try {
+      const user = this.ormRepository.create(UserData);
 
-    await this.ormRepository.save(user);
+      await this.ormRepository.save(user);
+  
+      return user;
 
-    return user;
+    } catch (err) {
+
+      return;
+    }
+ 
   }
 
   public async update(newUserData: IUpdateUserDTO): Promise<User | undefined> {
@@ -56,10 +77,17 @@ class UsersRepository implements IUserRepository {
     return user;
   }
 
-  public async destroy(id: string): Promise<void> {
-    await this.ormRepository.delete(id);
-    
-    return;
+  public async destroy(id: string): Promise<User | undefined> {
+    try {
+      const user = this.ormRepository.findOne(id);
+
+      await this.ormRepository.delete(id);
+      
+      return user;
+
+    } catch (err) {
+      return;
+    }
   }
 
   public async save(user: User): Promise<User> {

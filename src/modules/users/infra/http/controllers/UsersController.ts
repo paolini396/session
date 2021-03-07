@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import IndexUserService from '@modules/users/services/IndexUserService';
-import CreateUserService from '@modules/users/services/CreateUserService';
+import StoreUserService from '@modules/users/services/StoreUserService';
+import ShowUserService from '@modules/users/services/ShowUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import DestroyUserService from '@modules/users/services/DestroyUserService';
 
@@ -19,12 +20,25 @@ export default class UsersController {
     return response.json({ users });
   }
 
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const showUsers = container.resolve(ShowUserService);
+
+    const user = await showUsers.execute(id);
+
+    delete user?.password;
+
+
+    return response.json({ user });
+  }
+
   public async store(request: Request, response: Response): Promise<Response> {
     const { name, email, password } = request.body;
 
-    const createUser = container.resolve(CreateUserService);
+    const storeUser = container.resolve(StoreUserService);
 
-    const user = await createUser.execute({
+    const user = await storeUser.execute({
       name,
       email,
       password,

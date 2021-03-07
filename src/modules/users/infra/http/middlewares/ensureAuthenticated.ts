@@ -22,8 +22,6 @@ export default function ensureAuthenticated(
       throw new AppError('Token JWT expirado.', 401);
     }
 
-    console.log({authHeader});
-
     const [, token] = authHeader.split(' ');
 
     try {
